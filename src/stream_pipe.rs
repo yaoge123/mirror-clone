@@ -137,6 +137,7 @@ where
     async fn get_object(&self, snapshot: &Snapshot, mission: &Mission) -> Result<ByteStream> {
         let transfer_url = self.source.get_object(snapshot, mission).await?;
 
+        tokio::fs::create_dir_all(&self.buffer_path).await?;
         let path = format!(
             "{}/{}.{}.buffer",
             self.buffer_path,
