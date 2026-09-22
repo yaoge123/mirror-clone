@@ -267,6 +267,7 @@ where
                 .into_bytes();
             let pipe_file = format!("{}.{}.buffer", hash_string(key), unix_time());
             let path = Path::new(&self.buffer_path).join(pipe_file);
+            tokio::fs::create_dir_all(&self.buffer_path).await?;
             let mut f = BufWriter::new(
                 tokio::fs::OpenOptions::default()
                     .create(true)
